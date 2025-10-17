@@ -2,6 +2,7 @@
 "use client";
 
 import Link from "next/link";
+import type { Route } from "next";
 import { useMemo, useState } from "react";
 
 import {
@@ -93,7 +94,7 @@ const sortOptions = [
 
 const perPageOptions = [12, 24, 36];
 
-const filterBreadcrumb = [
+const filterBreadcrumb: Array<{ label: string; href: Route }> = [
   { label: "Trang chủ", href: "/" },
   { label: "Cửa hàng", href: "/filter" },
 ];
@@ -822,3 +823,5 @@ export default function FilterPage() {
     </div>
   );
 }
+
+
