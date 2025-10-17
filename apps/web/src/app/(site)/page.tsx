@@ -5,6 +5,8 @@ import { useMemo, useState } from "react";
 import {
   BadgePercent,
   ChevronDown,
+  ChevronRight,
+  Eye,
   Facebook,
   Globe,
   Heart,
@@ -13,6 +15,7 @@ import {
   Menu,
   MessageCircle,
   Phone,
+  Quote,
   Search,
   ShieldCheck,
   ShoppingCart,
@@ -21,7 +24,6 @@ import {
   Truck,
   Twitter,
   User,
-  Wine,
 } from "lucide-react";
 
 type Product = {
@@ -40,13 +42,29 @@ type ColumnGroup = {
 };
 
 const heroImages = {
-  primaryBottle:
+  primary:
     "https://www.portotheme.com/wordpress/porto/shop39/wp-content/uploads/sites/107/2021/09/shop39-intro-1.png",
   rareWine:
     "https://www.portotheme.com/wordpress/porto/shop39/wp-content/uploads/sites/107/2020/12/banner-1.jpg",
   topUnder100:
     "https://www.portotheme.com/wordpress/porto/shop39/wp-content/uploads/sites/107/2020/12/banner-2.jpg",
 };
+
+const headerLinks = ["Track Order", "About", "Our Stores", "Blog", "Contact", "Help & FAQs"];
+
+const mainNavigation = [
+  { label: "Home", href: "#", isHighlighted: true },
+  { label: "Features", href: "#" },
+  { label: "Shop", href: "#" },
+  { label: "Products", href: "#" },
+  { label: "Elements", href: "#", isHighlighted: true },
+  { label: "Buy Porto!", href: "#" },
+];
+
+const filterTabs = [
+  { id: "varietal", label: "Varietal" },
+  { id: "region", label: "Region" },
+] as const;
 
 const varietalColumns: ColumnGroup[] = [
   {
@@ -55,7 +73,7 @@ const varietalColumns: ColumnGroup[] = [
   },
   {
     title: "White Wine",
-    items: ["Chardonnay", "Pinot Gris/Grigio", "Riesling", "Sauvignon Blanc", "White Bordeaux"],
+    items: ["Chardonnay", "Pinot Gris/Grigio", "Riesling", "Sauvignon Blanc", "White Bordeaux Blends"],
   },
   {
     title: "Other",
@@ -152,29 +170,58 @@ const featuredProducts: Product[] = [
     price: "$69.00",
     badge: "hot",
     rating: 0,
-    categories: ["Champagne", "Sangiovese"],
+    categories: ["Cabernet Sauvignon", "Sparkling"],
   },
 ];
 
 const staffFavorites: Product[] = [
   {
     name: "Product Short Name",
-    image: "https://www.portotheme.com/wordpress/porto/shop39/wp-content/uploads/sites/107/2020/12/product-16-85x85.jpg",
+    image: "https://www.portotheme.com/wordpress/porto/shop39/wp-content/uploads/sites/107/2020/12/product-12.jpg",
+    price: "$29.00",
+    rating: 0,
+    categories: ["Cabernet Sauvignon"],
+  },
+  {
+    name: "Product Short Name",
+    image: "https://www.portotheme.com/wordpress/porto/shop39/wp-content/uploads/sites/107/2020/12/product-11.jpg",
+    price: "$59.00",
+    rating: 0,
+    categories: ["Cabernet Sauvignon"],
+  },
+  {
+    name: "Product Short Name",
+    image: "https://www.portotheme.com/wordpress/porto/shop39/wp-content/uploads/sites/107/2020/12/product-10.jpg",
+    price: "$79.00",
+    rating: 0,
+    categories: ["Cabernet Sauvignon"],
+  },
+  {
+    name: "Product Short Name",
+    image: "https://www.portotheme.com/wordpress/porto/shop39/wp-content/uploads/sites/107/2020/12/product-9.jpg",
+    price: "$49.00",
+    originalPrice: "$59.00",
+    rating: 0,
+    categories: ["Cabernet Sauvignon"],
+  },
+  {
+    name: "Product Short Name",
+    image: "https://www.portotheme.com/wordpress/porto/shop39/wp-content/uploads/sites/107/2020/12/product-16.jpg",
     price: "$39.00",
     rating: 0,
     categories: ["Bordeaux Blends"],
   },
   {
     name: "Product Short Name",
-    image: "https://www.portotheme.com/wordpress/porto/shop39/wp-content/uploads/sites/107/2020/12/product-15-85x85.jpg",
+    image: "https://www.portotheme.com/wordpress/porto/shop39/wp-content/uploads/sites/107/2020/12/product-15.jpg",
     price: "$49.00",
     originalPrice: "$59.00",
     rating: 5,
-    categories: ["Austria"],
+    categories: ["Austria", "Sake"],
   },
   {
     name: "Product Short Name",
-    image: "https://www.portotheme.com/wordpress/porto/shop39/wp-content/uploads/sites/107/2020/12/product-14-85x85.jpg",
+    image: "https://www.portotheme.com/wordpress/porto/shop39/wp-content/uploads/sites/107/2020/12/product-14.jpg",
     price: "$89.00",
     originalPrice: "$99.00",
     rating: 4,
@@ -182,37 +229,8 @@ const staffFavorites: Product[] = [
   },
   {
     name: "Product Short Name",
-    image: "https://www.portotheme.com/wordpress/porto/shop39/wp-content/uploads/sites/107/2020/12/product-13-85x85.jpg",
+    image: "https://www.portotheme.com/wordpress/porto/shop39/wp-content/uploads/sites/107/2020/12/product-13.jpg",
     price: "$59.00",
-    rating: 0,
-    categories: ["Cabernet Sauvignon"],
-  },
-  {
-    name: "Product Short Name",
-    image: "https://www.portotheme.com/wordpress/porto/shop39/wp-content/uploads/sites/107/2020/12/product-12-85x85.jpg",
-    price: "$29.00",
-    rating: 0,
-    categories: ["Cabernet Sauvignon"],
-  },
-  {
-    name: "Product Short Name",
-    image: "https://www.portotheme.com/wordpress/porto/shop39/wp-content/uploads/sites/107/2020/12/product-11-85x85.jpg",
-    price: "$59.00",
-    rating: 0,
-    categories: ["Cabernet Sauvignon"],
-  },
-  {
-    name: "Product Short Name",
-    image: "https://www.portotheme.com/wordpress/porto/shop39/wp-content/uploads/sites/107/2020/12/product-10-85x85.jpg",
-    price: "$79.00",
-    rating: 0,
-    categories: ["Cabernet Sauvignon"],
-  },
-  {
-    name: "Product Short Name",
-    image: "https://www.portotheme.com/wordpress/porto/shop39/wp-content/uploads/sites/107/2020/12/product-9-85x85.jpg",
-    price: "$49.00",
-    originalPrice: "$59.00",
     rating: 0,
     categories: ["Cabernet Sauvignon"],
   },
@@ -221,17 +239,17 @@ const staffFavorites: Product[] = [
 const blogPosts = [
   {
     title: "Lorem ipsum dolor sit amet",
-    image: "https://www.portotheme.com/wordpress/porto/shop39/wp-content/uploads/sites/107/2020/12/POST-1-322x180.jpg",
+    image: "https://www.portotheme.com/wordpress/porto/shop39/wp-content/uploads/sites/107/2020/12/POST-1.jpg",
     date: "December 7, 2020",
   },
   {
     title: "Lorem ipsum dolor sit amet",
-    image: "https://www.portotheme.com/wordpress/porto/shop39/wp-content/uploads/sites/107/2020/12/post-2-322x180.jpg",
+    image: "https://www.portotheme.com/wordpress/porto/shop39/wp-content/uploads/sites/107/2020/12/post-2.jpg",
     date: "December 7, 2020",
   },
   {
     title: "Lorem ipsum dolor sit amet",
-    image: "https://www.portotheme.com/wordpress/porto/shop39/wp-content/uploads/sites/107/2020/12/post-3-322x180.jpg",
+    image: "https://www.portotheme.com/wordpress/porto/shop39/wp-content/uploads/sites/107/2020/12/post-3.jpg",
     date: "December 7, 2020",
   },
 ];
@@ -243,7 +261,7 @@ const instagramImages = [
   "https://www.portotheme.com/wordpress/porto/shop39/wp-content/uploads/sites/107/2020/12/instagram-4.jpg",
 ];
 
-const footerLinks = {
+const footerLinks: Record<string, string[]> = {
   "Customer Service": [
     "Help & FAQs",
     "Order Tracking",
@@ -258,23 +276,28 @@ const footerLinks = {
 
 const badgeStyles: Record<NonNullable<Product["badge"]>, string> = {
   hot: "bg-[#b6193a]",
-  sale: "bg-[#b6193a]",
-  new: "bg-slate-900",
+  sale: "bg-[#2f6f37]",
+  new: "bg-[#1c4eb4]",
 };
 
-const headerLinks = ["Track Order", "About", "Our Stores", "Blog", "Contact", "Help & FAQs"];
-
-function renderStars(rating: number) {
+const testimonial = {
+  quote:
+    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur tempor tempus rhoncus. Sed et magna quis nisi iaculis consectetur. Nullam molestie sed dui at volutpat.",
+  author: "Mary Doe",
+  role: "Customer",
+  avatar: "https://www.portotheme.com/wordpress/porto/shop39/wp-content/uploads/sites/107/2020/12/avatar.png",
+};
+function RatingStars({ rating }: { rating: number }) {
   const fullStars = Math.floor(rating);
-  const hasHalf = rating - fullStars >= 0.5;
-  const emptyStars = 5 - fullStars - (hasHalf ? 1 : 0);
+  const hasHalfStar = rating - fullStars >= 0.5;
+  const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
 
   return (
     <div className="flex items-center gap-1">
       {Array.from({ length: fullStars }).map((_, index) => (
-        <Star key={`full-${index}`} className="h-4 w-4 text-yellow-400" fill="currentColor" />
+        <Star key={`full-${index}`} className="h-4 w-4 fill-[#f1b856] text-[#f1b856]" strokeWidth={0} />
       ))}
-      {hasHalf && <StarHalf className="h-4 w-4 text-yellow-400" fill="currentColor" />}
+      {hasHalfStar && <StarHalf className="h-4 w-4 fill-[#f1b856] text-[#f1b856]" strokeWidth={0} />}
       {Array.from({ length: emptyStars }).map((_, index) => (
         <Star key={`empty-${index}`} className="h-4 w-4 text-slate-300" />
       ))}
@@ -282,8 +305,71 @@ function renderStars(rating: number) {
   );
 }
 
+function ProductCard({ product, variant = "solid" }: { product: Product; variant?: "solid" | "outline" }) {
+  const buttonBase =
+    "mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full px-7 py-3 text-xs font-semibold uppercase tracking-[0.32em] transition";
+  const buttonClass =
+    variant === "solid"
+      ? `${buttonBase} bg-[#b6193a] text-white hover:bg-[#9b1330]`
+      : `${buttonBase} border border-slate-900 text-slate-900 hover:bg-slate-900 hover:text-white`;
+
+  return (
+    <article className="relative flex h-full flex-col overflow-hidden rounded-[28px] border border-slate-200 bg-white px-6 pb-7 pt-6 shadow-[0_28px_60px_-45px_rgba(30,41,59,0.55)] transition hover:-translate-y-1 hover:shadow-[0_34px_70px_-40px_rgba(30,41,59,0.55)]">
+      {product.badge && (
+        <span
+          className={`absolute left-6 top-6 rounded-full px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.32em] text-white ${badgeStyles[product.badge]}`}
+        >
+          {product.badge}
+        </span>
+      )}
+      <div className="flex justify-end gap-2">
+        <button
+          type="button"
+          className="flex h-9 w-9 items-center justify-center rounded-full border border-slate-200 text-slate-400 transition hover:border-[#b6193a] hover:text-[#b6193a]"
+          aria-label="Add to wishlist"
+        >
+          <Heart className="h-4 w-4" />
+        </button>
+        <button
+          type="button"
+          className="flex h-9 w-9 items-center justify-center rounded-full border border-slate-200 text-slate-400 transition hover:border-[#b6193a] hover:text-[#b6193a]"
+          aria-label="Quick view"
+        >
+          <Eye className="h-4 w-4" />
+        </button>
+      </div>
+      <div className="mt-2 flex flex-1 flex-col items-center text-center">
+        <div className="relative flex h-52 w-full max-w-[230px] items-center justify-center">
+          <div className="absolute inset-0 rounded-full bg-slate-100/80" />
+          <img
+            src={product.image}
+            alt={product.name}
+            className="relative z-10 h-full w-full max-w-[220px] object-contain transition duration-500 hover:scale-105"
+          />
+        </div>
+        <div className="mt-6 flex flex-col items-center gap-3">
+          <p className="text-[11px] uppercase tracking-[0.28em] text-slate-500">
+            {product.categories.join(", ")}
+          </p>
+          <h3 className="text-base font-semibold text-slate-900 transition hover:text-[#b6193a]">{product.name}</h3>
+          <RatingStars rating={product.rating} />
+          <div className="flex items-center gap-2 text-lg font-semibold text-slate-900">
+            <span>{product.price}</span>
+            {product.originalPrice && (
+              <span className="text-sm font-medium text-slate-400 line-through">{product.originalPrice}</span>
+            )}
+          </div>
+        </div>
+        <button className={buttonClass}>
+          <ShoppingCart className="h-4 w-4" />
+          Add to Cart
+        </button>
+      </div>
+    </article>
+  );
+}
 export default function Home() {
-  const [activeFilter, setActiveFilter] = useState<"varietal" | "region">("varietal");
+  const [activeFilter, setActiveFilter] = useState<(typeof filterTabs)[number]["id"]>("varietal");
 
   const filterGroups = useMemo(
     () => (activeFilter === "varietal" ? varietalColumns : regionColumns),
@@ -303,7 +389,7 @@ export default function Home() {
             </div>
             <nav className="hidden items-center gap-5 uppercase tracking-[0.25em] md:flex">
               {headerLinks.map((item) => (
-                <Link key={item} href="#" className="hover:text-white/80">
+                <Link key={item} href="#" className="transition hover:text-white/80">
                   {item}
                 </Link>
               ))}
@@ -341,16 +427,15 @@ export default function Home() {
               </button>
               <div className="text-2xl font-extrabold tracking-[0.4em] text-slate-800">PORTO</div>
               <nav className="hidden items-center gap-6 text-sm font-medium uppercase tracking-[0.25em] md:flex">
-                <Link href="#" className="text-[#b6193a]">
-                  Home
-                </Link>
-                <Link href="#">Features</Link>
-                <Link href="#">Shop</Link>
-                <Link href="#">Products</Link>
-                <Link href="#" className="text-[#b6193a]">
-                  Elements
-                </Link>
-                <Link href="#">Buy Porto!</Link>
+                {mainNavigation.map((item) => (
+                  <Link
+                    key={item.label}
+                    href={item.href}
+                    className={item.isHighlighted ? "text-[#b6193a]" : "text-slate-700 hover:text-[#b6193a]"}
+                  >
+                    {item.label}
+                  </Link>
+                ))}
               </nav>
             </div>
             <div className="flex items-center gap-4 text-slate-700">
@@ -377,180 +462,151 @@ export default function Home() {
       </header>
 
       <main>
-        <section className="bg-[#f4f4f4]">
-          <div className="mx-auto max-w-[1200px] px-4 py-12">
-            <div className="grid gap-10 md:grid-cols-2 md:items-center">
-              <div className="space-y-4">
+        <section className="relative overflow-hidden bg-[#f4f4f4]">
+          <div className="absolute inset-0">
+            <div className="absolute left-1/2 top-8 h-[420px] w-[420px] -translate-x-1/2 rounded-full bg-[#b6193a]/10 blur-3xl" />
+            <div className="absolute -left-16 top-1/2 hidden -translate-y-1/2 text-[220px] font-black uppercase tracking-[0.06em] text-slate-200/60 md:block">
+              PORTO
+            </div>
+            <div className="absolute right-[-60px] bottom-[-40px] hidden text-[170px] font-black uppercase tracking-[0.08em] text-slate-200/45 md:block">
+              WINE
+            </div>
+          </div>
+          <div className="relative mx-auto grid max-w-[1200px] gap-12 px-4 py-16 md:grid-cols-[minmax(0,1fr)_420px] md:py-20">
+            <div className="relative z-10 space-y-6">
+              <span className="inline-flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.35em] text-slate-500">
+                <span className="h-[2px] w-10 bg-[#b6193a]" />
+                2016 Cabernet Sauvignon
+              </span>
+              <h1 className="text-5xl font-black uppercase tracking-[0.03em] text-slate-900 md:text-6xl">Porto Wine</h1>
+              <p className="max-w-md text-base leading-7 text-slate-600">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quam lacus, et suscipit lectus porta efficitur.
+              </p>
+              <div className="flex items-baseline gap-2">
+                <span className="text-sm font-semibold uppercase tracking-[0.35em] text-slate-500">Only</span>
+                <span className="text-5xl font-black text-[#b6193a]">
+                  <sup className="text-xl align-top">$</sup>39<sup className="text-sm align-top">99</sup>
+                </span>
+              </div>
+              <Link
+                href="#"
+                className="inline-flex items-center gap-2 rounded-full border border-slate-900 px-8 py-3 text-sm font-semibold uppercase tracking-[0.3em] text-slate-900 transition hover:bg-slate-900 hover:text-white"
+              >
+                Shop Now
+                <ChevronRight className="h-4 w-4" />
+              </Link>
+            </div>
+            <div className="relative z-10 flex items-center justify-center">
+              <div className="relative w-full max-w-[420px] rounded-[36px] bg-white/85 p-8 shadow-[0_40px_80px_-45px_rgba(15,23,42,0.45)] backdrop-blur">
+                <img src={heroImages.primary} alt="Porto wine collection" className="w-full object-contain" />
+              </div>
+            </div>
+          </div>
+
+          <div className="relative mx-auto grid max-w-[1200px] gap-6 px-4 pb-16 md:grid-cols-3 md:gap-8">
+            <div className="relative overflow-hidden rounded-[32px] bg-[#24181d] px-10 py-12 text-white md:col-span-2">
+              <img src={heroImages.rareWine} alt="Rare wines" className="absolute inset-0 h-full w-full object-cover opacity-30" />
+              <div className="relative flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
                 <div>
-                  <p className="mb-2 text-sm uppercase tracking-[0.35em] text-slate-500">
-                    2016 Cabernet Sauvignon
-                  </p>
-                  <h1 className="text-5xl font-black uppercase tracking-tight text-slate-900 md:text-6xl">
-                    Porto Wine
-                  </h1>
+                  <p className="text-sm uppercase tracking-[0.35em] text-white/70">Rare Wines</p>
+                  <h2 className="mt-2 text-4xl font-bold uppercase tracking-tight">Incredible Discounts</h2>
                 </div>
-                <p className="max-w-lg text-base leading-7 text-slate-600">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quam lacus, et suscipit lectus porta
-                  efficitur.
-                </p>
                 <div className="flex items-baseline gap-2">
-                  <span className="text-sm font-semibold uppercase tracking-[0.25em] text-slate-600">Only</span>
-                  <span className="text-4xl font-black text-[#b6193a]">
+                  <span className="text-xs font-semibold uppercase tracking-[0.35em] text-white/70">Only</span>
+                  <span className="text-4xl font-black">
                     <sup className="text-xl align-top">$</sup>39<sup className="text-sm align-top">99</sup>
                   </span>
                 </div>
+              </div>
+              <Link
+                href="#"
+                className="relative mt-8 inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-xs font-semibold uppercase tracking-[0.3em] text-slate-900 transition hover:bg-white/90"
+              >
+                Shop Now
+                <ChevronRight className="h-4 w-4" />
+              </Link>
+            </div>
+            <div className="relative overflow-hidden rounded-[32px] bg-[#f5f1f2] px-8 py-12 text-slate-900">
+              <img src={heroImages.topUnder100} alt="Top under 100" className="absolute inset-0 h-full w-full object-cover opacity-15" />
+              <div className="relative space-y-3">
+                <h3 className="text-4xl font-black uppercase leading-tight tracking-[0.12em]">
+                  Top <span className="text-[#b6193a]">10+</span>
+                </h3>
+                <p className="text-xs font-semibold uppercase tracking-[0.35em] text-slate-500">Under $100</p>
                 <Link
                   href="#"
-                  className="inline-flex items-center gap-2 rounded-full border border-slate-900 px-7 py-3 text-sm font-semibold uppercase tracking-[0.3em] text-slate-900 transition hover:bg-slate-900 hover:text-white"
+                  className="mt-4 inline-flex items-center gap-2 rounded-full border border-slate-900 px-5 py-3 text-xs font-semibold uppercase tracking-[0.3em] transition hover:bg-slate-900 hover:text-white"
                 >
                   Shop Now
+                  <ChevronRight className="h-4 w-4" />
                 </Link>
               </div>
-              <div className="relative flex justify-center">
-                <div className="absolute inset-0 -translate-y-6 rounded-full bg-[#b6193a]/10 blur-3xl" />
-                <img src={heroImages.primaryBottle} alt="Porto wine bottle" className="relative z-10 w-full max-w-md" />
-              </div>
-            </div>
-
-            <div className="mt-10 grid gap-6 md:grid-cols-3">
-              <div className="relative overflow-hidden rounded-3xl bg-[#b6193a] px-8 py-10 text-white md:col-span-2">
-                <img
-                  src={heroImages.rareWine}
-                  alt="Rare wines"
-                  className="absolute inset-0 h-full w-full object-cover opacity-20"
-                />
-                <div className="relative space-y-3">
-                  <p className="text-sm uppercase tracking-[0.35em] text-white/70">Rare Wines</p>
-                  <h2 className="text-3xl font-bold uppercase tracking-tight">Incredible Discounts</h2>
-                  <div className="flex items-baseline gap-2">
-                    <span className="text-xs font-semibold uppercase tracking-[0.35em] text-white/70">Only</span>
-                    <span className="text-4xl font-black">
-                      <sup className="text-xl align-top">$</sup>39<sup className="text-sm align-top">99</sup>
-                    </span>
-                  </div>
-                  <Link
-                    href="#"
-                    className="inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-xs font-semibold uppercase tracking-[0.3em] text-slate-900 transition hover:bg-white/90"
-                  >
-                    Shop Now
-                  </Link>
-                </div>
-              </div>
-              <div className="relative overflow-hidden rounded-3xl bg-[#f5f1f2] px-6 py-10 text-slate-900">
-                <img
-                  src={heroImages.topUnder100}
-                  alt="Top under 100"
-                  className="absolute inset-0 h-full w-full object-cover opacity-20"
-                />
-                <div className="relative space-y-1">
-                  <h3 className="text-3xl font-black uppercase leading-tight tracking-[0.15em]">
-                    Top <span className="text-[#b6193a]">10+</span>
-                  </h3>
-                  <p className="text-xs font-semibold uppercase tracking-[0.35em] text-slate-500">Under $100</p>
-                  <Link
-                    href="#"
-                    className="mt-6 inline-flex items-center gap-2 rounded-full border border-slate-900 px-5 py-3 text-xs font-semibold uppercase tracking-[0.3em] transition hover:bg-slate-900 hover:text-white"
-                  >
-                    Shop Now
-                  </Link>
-                </div>
-              </div>
             </div>
           </div>
         </section>
-
         <section className="bg-white py-16">
           <div className="mx-auto max-w-[1200px] px-4">
-            <div className="flex items-center justify-between gap-4 border-b border-slate-200 pb-6">
-              <h2 className="text-sm font-semibold uppercase tracking-[0.35em] text-slate-600">Filter by:</h2>
-              <div className="flex gap-4">
-                <button
-                  onClick={() => setActiveFilter("varietal")}
-                  className={`px-4 py-2 text-xs font-semibold uppercase tracking-[0.3em] ${
-                    activeFilter === "varietal" ? "text-[#b6193a]" : "text-slate-500"
-                  }`}
-                >
-                  Varietal
-                </button>
-                <button
-                  onClick={() => setActiveFilter("region")}
-                  className={`px-4 py-2 text-xs font-semibold uppercase tracking-[0.3em] ${
-                    activeFilter === "region" ? "text-[#b6193a]" : "text-slate-500"
-                  }`}
-                >
-                  Region
-                </button>
-              </div>
-            </div>
-            <div className="mt-8 grid gap-8 md:grid-cols-4">
-              {filterGroups.map((group) => (
-                <div key={group.title} className="space-y-4">
-                  <h3 className="text-lg font-semibold italic text-slate-900">{group.title}</h3>
-                  <ul className="space-y-2 text-sm text-slate-600">
-                    {group.items.map((item) => (
-                      <li key={item} className="transition hover:text-[#b6193a]">
-                        <Link href="#">{item}</Link>
-                      </li>
+            <div className="rounded-[34px] border border-slate-200 bg-[#f6f6f6] shadow-[0_30px_70px_-60px_rgba(15,23,42,0.5)]">
+              <div className="flex flex-col gap-5 border-b border-slate-200 px-8 py-6 md:flex-row md:items-center md:justify-between">
+                <h2 className="text-sm font-semibold uppercase tracking-[0.35em] text-slate-600">Filter by:</h2>
+                <div className="w-full overflow-hidden rounded-full border border-slate-200 bg-white text-center md:w-auto">
+                  <div className="grid grid-cols-2 text-xs font-semibold uppercase tracking-[0.3em]">
+                    {filterTabs.map((tab) => (
+                      <button
+                        key={tab.id}
+                        onClick={() => setActiveFilter(tab.id)}
+                        className={`relative py-3 transition after:absolute after:left-8 after:right-8 after:-bottom-[1px] after:h-[2px] ${
+                          activeFilter === tab.id ? "text-[#b6193a] after:bg-[#b6193a]" : "text-slate-500 after:bg-transparent hover:text-[#b6193a]"
+                        }`}
+                      >
+                        {tab.label}
+                      </button>
                     ))}
-                  </ul>
-                  <Link
-                    href="#"
-                    className="inline-flex items-center gap-1 text-xs font-semibold uppercase tracking-[0.3em] text-slate-800 transition hover:text-[#b6193a]"
-                  >
-                    View All
-                    <ChevronDown className="h-3 w-3" />
-                  </Link>
+                  </div>
                 </div>
-              ))}
+              </div>
+              <div className="grid gap-6 px-8 py-10 md:grid-cols-4 md:divide-x md:divide-slate-200">
+                {filterGroups.map((group) => (
+                  <div key={group.title} className="space-y-5 md:px-6">
+                    <h3 className="text-lg font-semibold italic text-slate-900">{group.title}</h3>
+                    <ul className="space-y-2 text-sm text-slate-600">
+                      {group.items.map((item) => (
+                        <li key={item}>
+                          <Link href="#" className="transition hover:text-[#b6193a]">
+                            {item}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                    <Link
+                      href="#"
+                      className="inline-flex items-center gap-1 text-xs font-semibold uppercase tracking-[0.3em] text-slate-800 transition hover:text-[#b6193a]"
+                    >
+                      View All
+                      <ChevronRight className="h-3 w-3" />
+                    </Link>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </section>
 
-        <section className="bg-white py-16">
+        <section className="bg-white pb-4">
           <div className="mx-auto max-w-[1200px] px-4">
             <div className="flex items-center justify-between border-b border-slate-200 pb-6">
               <h2 className="text-sm font-semibold uppercase tracking-[0.35em] text-slate-600">Popular Wines</h2>
+              <Link
+                href="#"
+                className="hidden items-center gap-2 text-xs font-semibold uppercase tracking-[0.32em] text-slate-600 transition hover:text-[#b6193a] md:inline-flex"
+              >
+                View All
+                <ChevronRight className="h-3 w-3" />
+              </Link>
             </div>
             <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
               {popularProducts.map((product) => (
-                <article
-                  key={product.image}
-                  className="group relative flex flex-col rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-1 hover:shadow-lg"
-                >
-                  {product.badge && (
-                    <span
-                      className={`absolute right-5 top-5 rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-[0.3em] text-white ${badgeStyles[product.badge]}`}
-                    >
-                      {product.badge}
-                    </span>
-                  )}
-                  <div className="flex flex-1 flex-col items-center gap-4">
-                    <img
-                      src={product.image}
-                      alt={product.name}
-                      className="h-48 w-48 object-contain transition duration-500 group-hover:scale-105"
-                    />
-                    <div className="flex flex-col items-center gap-3 text-center">
-                      <div className="text-[11px] uppercase tracking-[0.25em] text-slate-500">
-                        {product.categories.join(", ")}
-                      </div>
-                      <h3 className="text-base font-semibold text-slate-900 transition group-hover:text-[#b6193a]">
-                        {product.name}
-                      </h3>
-                      {renderStars(product.rating)}
-                      <div className="flex items-center gap-2 text-lg font-semibold text-slate-900">
-                        <span>{product.price}</span>
-                        {product.originalPrice && (
-                          <span className="text-sm font-normal text-slate-400 line-through">{product.originalPrice}</span>
-                        )}
-                      </div>
-                      <button className="mt-2 inline-flex items-center gap-2 rounded-full bg-[#b6193a] px-6 py-3 text-xs font-semibold uppercase tracking-[0.3em] text-white transition hover:bg-[#9f1431]">
-                        <ShoppingCart className="h-4 w-4" />
-                        Add to Cart
-                      </button>
-                    </div>
-                  </div>
-                </article>
+                <ProductCard key={`${product.image}-popular`} product={product} />
               ))}
             </div>
           </div>
@@ -561,90 +617,68 @@ export default function Home() {
             <div className="flex items-center gap-4 rounded-2xl border border-slate-200 bg-[#f9f5f3] px-6 py-5">
               <Truck className="h-10 w-10 text-[#b6193a]" />
               <div>
-                <p className="text-sm font-semibold uppercase tracking-[0.3em] text-slate-800">
-                  Free Shipping & Return
-                </p>
+                <p className="text-sm font-semibold uppercase tracking-[0.3em] text-slate-800">Free Shipping & Return</p>
                 <p className="text-sm text-slate-600">Free shipping on all orders over $99.</p>
               </div>
             </div>
             <div className="flex items-center gap-4 rounded-2xl border border-slate-200 bg-[#f9f5f3] px-6 py-5">
               <ShieldCheck className="h-10 w-10 text-[#b6193a]" />
               <div>
-                <p className="text-sm font-semibold uppercase tracking-[0.3em] text-slate-800">
-                  Money Back Guarantee
-                </p>
+                <p className="text-sm font-semibold uppercase tracking-[0.3em] text-slate-800">Money Back Guarantee</p>
                 <p className="text-sm text-slate-600">100% money back guarantee.</p>
               </div>
             </div>
             <div className="flex items-center gap-4 rounded-2xl border border-slate-200 bg-[#f9f5f3] px-6 py-5">
               <MessageCircle className="h-10 w-10 text-[#b6193a]" />
               <div>
-                <p className="text-sm font-semibold uppercase tracking-[0.3em] text-slate-800">
-                  Online Support 24/7
-                </p>
+                <p className="text-sm font-semibold uppercase tracking-[0.3em] text-slate-800">Online Support 24/7</p>
                 <p className="text-sm text-slate-600">Lorem ipsum dolor sit amet.</p>
               </div>
             </div>
           </div>
         </section>
 
-        <section className="bg-white py-16">
+        <section className="bg-white pb-4">
           <div className="mx-auto max-w-[1200px] px-4">
             <div className="flex items-center justify-between border-b border-slate-200 pb-6">
               <h2 className="text-sm font-semibold uppercase tracking-[0.35em] text-slate-600">Featured Wines</h2>
             </div>
             <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
               {featuredProducts.map((product) => (
-                <article
-                  key={product.image}
-                  className="group flex flex-col items-center rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-1 hover:shadow-lg"
-                >
-                  {product.badge && (
-                    <span
-                      className={`absolute left-5 top-5 rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-[0.3em] text-white ${badgeStyles[product.badge]}`}
-                    >
-                      {product.badge}
-                    </span>
-                  )}
-                  <img
-                    src={product.image}
-                    alt={product.name}
-                    className="h-52 w-52 object-contain transition duration-500 group-hover:scale-105"
-                  />
-                  <div className="mt-6 flex flex-col items-center gap-3 text-center">
-                    <div className="text-[11px] uppercase tracking-[0.25em] text-slate-500">
-                      {product.categories.join(", ")}
-                    </div>
-                    <h3 className="text-base font-semibold text-slate-900 transition group-hover:text-[#b6193a]">
-                      {product.name}
-                    </h3>
-                    {renderStars(product.rating)}
-                    <div className="text-lg font-semibold text-slate-900">{product.price}</div>
-                    <button className="inline-flex items-center gap-2 rounded-full border border-slate-900 px-6 py-3 text-xs font-semibold uppercase tracking-[0.3em] transition hover:bg-slate-900 hover:text-white">
-                      <ShoppingCart className="h-4 w-4" />
-                      Add to Cart
-                    </button>
-                  </div>
-                </article>
+                <ProductCard key={`${product.image}-featured`} product={product} variant="outline" />
               ))}
             </div>
           </div>
         </section>
-
-        <section className="bg-[#f5f5f5] py-20">
-          <div className="mx-auto max-w-[900px] px-4 text-center">
-            <Wine className="mx-auto mb-6 h-10 w-10 text-[#b6193a]" />
-            <p className="text-lg italic text-slate-700">
-              “Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur tempor tempus rhoncus. Sed et magna
-              quis nisi iaculis consectetur. Nullam molestie sed dui at volutpat. Morbi porta malesuada tortor, eu
-              hendrerit lectus.”
-            </p>
-            <div className="mt-6 font-semibold uppercase tracking-[0.35em] text-slate-800">Mary Doe</div>
-            <div className="mt-2 flex justify-center gap-1">{renderStars(5)}</div>
+        <section
+          className="py-20"
+          style={{
+            backgroundImage:
+              "url('https://www.portotheme.com/wordpress/porto/shop39/wp-content/uploads/sites/107/2020/12/testimonial.jpg')",
+            backgroundPosition: "center",
+            backgroundSize: "cover",
+          }}
+        >
+          <div className="mx-auto max-w-[720px] px-4">
+            <div className="rounded-[32px] bg-white/90 px-10 py-12 text-center shadow-[0_30px_70px_-55px_rgba(15,23,42,0.6)] backdrop-blur">
+              <div className="mb-4 flex justify-center text-[#b6193a]">
+                <Quote className="h-10 w-10" />
+              </div>
+              <p className="text-lg italic text-slate-700">“{testimonial.quote}”</p>
+              <div className="mt-6 flex flex-col items-center gap-3">
+                <img
+                  src={testimonial.avatar}
+                  alt={testimonial.author}
+                  className="h-20 w-20 rounded-full border-4 border-white shadow"
+                />
+                <div className="font-semibold uppercase tracking-[0.35em] text-slate-800">{testimonial.author}</div>
+                <div className="text-xs uppercase tracking-[0.35em] text-slate-500">{testimonial.role}</div>
+                <RatingStars rating={5} />
+              </div>
+            </div>
           </div>
         </section>
-
-        <section className="bg-white py-16">
+        <section className="bg-white pb-4 pt-16">
           <div className="mx-auto max-w-[1200px] px-4">
             <div className="flex items-center justify-between border-b border-slate-200 pb-6">
               <h2 className="text-sm font-semibold uppercase tracking-[0.35em] text-slate-600">Staff Favorites</h2>
@@ -652,13 +686,13 @@ export default function Home() {
             <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
               {staffFavorites.map((product) => (
                 <div
-                  key={product.image}
-                  className="flex items-center gap-4 rounded-xl border border-slate-200 p-4 transition hover:border-[#b6193a]"
+                  key={`${product.image}-favorite`}
+                  className="flex items-center gap-4 rounded-2xl border border-slate-200 p-4 transition hover:border-[#b6193a]"
                 >
                   <img src={product.image} alt={product.name} className="h-20 w-20 rounded-xl object-cover" />
                   <div className="space-y-2">
-                    <h3 className="text-sm平台直属 font-semibold text-slate-900">{product.name}</h3>
-                    {renderStars(product.rating)}
+                    <h3 className="text-sm font-semibold text-slate-900">{product.name}</h3>
+                    <RatingStars rating={product.rating} />
                     <div className="flex items-center gap-2 text-sm font-semibold text-slate-900">
                       <span>{product.price}</span>
                       {product.originalPrice && (
@@ -671,24 +705,21 @@ export default function Home() {
             </div>
           </div>
         </section>
-
         <section className="bg-[#b6193a] py-12 text-white">
           <div className="mx-auto flex max-w-[1200px] flex-col items-center justify-between gap-6 px-4 text-center md:flex-row md:text-left">
             <div>
-              <p className="text-sm font-semibold uppercase tracking-[0.35em] text-white/70">
-                Wine Spectator's Top 100
-              </p>
-              <h2 className="mt-3 text-3xl font-bold uppercase tracking-[0.2em]">Check Now This Year’s List</h2>
+              <p className="text-sm font-semibold uppercase tracking-[0.35em] text-white/70">Wine Spectator's Top 100</p>
+              <h2 className="mt-3 text-3xl font-bold uppercase tracking-[0.2em]">Check Now This Year's List</h2>
             </div>
             <Link
               href="#"
               className="inline-flex items-center gap-2 rounded-full bg-white px-8 py-3 text-xs font-semibold uppercase tracking-[0.35em] text-slate-900 transition hover:bg-white/90"
             >
               Shop Now
+              <ChevronRight className="h-4 w-4" />
             </Link>
           </div>
         </section>
-
         <section className="bg-white py-16">
           <div className="mx-auto max-w-[1200px] px-4">
             <div className="flex items-center justify-between border-b border-slate-200 pb-6">
@@ -712,6 +743,7 @@ export default function Home() {
                       className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.3em] text-slate-900 transition hover:text-[#b6193a]"
                     >
                       Read More
+                      <ChevronRight className="h-3 w-3" />
                     </Link>
                   </div>
                 </article>
@@ -719,7 +751,6 @@ export default function Home() {
             </div>
           </div>
         </section>
-
         <section className="bg-white pb-16">
           <div className="mx-auto max-w-[1200px] px-4">
             <div className="flex items-center justify-between border-b border-slate-200 pb-6">
@@ -750,9 +781,7 @@ export default function Home() {
           <div className="mx-auto flex max-w-[1200px] flex-col gap-6 px-4 md:flex-row md:items-center md:justify-between">
             <div>
               <h3 className="text-lg font-semibold uppercase tracking-[0.35em] text-slate-900">Newsletter</h3>
-              <p className="mt-2 text-sm text-slate-600">
-                Get all the latest information on events, sales and offers.
-              </p>
+              <p className="mt-2 text-sm text-slate-600">Get all the latest information on events, sales and offers.</p>
             </div>
             <form className="flex w-full max-w-xl items-center overflow-hidden rounded-full border border-slate-200 bg-slate-50">
               <input
@@ -770,7 +799,6 @@ export default function Home() {
             </form>
           </div>
         </div>
-
         <div className="border-t border-slate-200 py-12">
           <div className="mx-auto grid max-w-[1200px] gap-8 px-4 md:grid-cols-4">
             <div className="space-y-4">
@@ -805,14 +833,9 @@ export default function Home() {
                 <BadgePercent className="h-4 w-4 text-[#b6193a]" />
                 Payment Methods
               </div>
-              <div className="flex gap-2">
-                {["visa", "paypal", "stripe", "verisign"].map((method) => (
-                  <span
-                    key={method}
-                    className="rounded-md bg-slate-200 px-3 py-1 text-xs font-semibold uppercase text-slate-600"
-                  >
-                    {method}
-                  </span>
+              <div className="flex gap-2 text-xs font-semibold uppercase text-slate-600">
+                {['Visa', 'Paypal', 'Stripe', 'Verisign'].map((method) => (
+                  <span key={method} className="rounded-md bg-slate-200 px-3 py-1">{method}</span>
                 ))}
               </div>
             </div>
@@ -840,4 +863,3 @@ export default function Home() {
     </div>
   );
 }
-
