@@ -2,6 +2,12 @@
 
 import Link from "next/link";
 import { useMemo, useState } from "react";
+
+interface MainNavigationItem {
+  label: string;
+  href: `/${string}` | "/";
+  isHighlighted?: boolean;
+}
 import {
   BadgePercent,
   ChevronDown,
@@ -18,7 +24,6 @@ import {
   Quote,
   Search,
   ShieldCheck,
-  ShoppingCart,
   Star,
   StarHalf,
   Truck,
@@ -50,79 +55,79 @@ const heroImages = {
     "https://www.portotheme.com/wordpress/porto/shop39/wp-content/uploads/sites/107/2020/12/banner-2.jpg",
 };
 
-const headerLinks = ["Track Order", "About", "Our Stores", "Blog", "Contact", "Help & FAQs"];
+const headerLinks = ["Theo dõi đơn hàng", "Về chúng tôi", "Cửa hàng", "Blog", "Liên hệ", "Trợ trợ & Câu hỏi thường gặp"];
 
-const mainNavigation = [
-  { label: "Home", href: "#", isHighlighted: true },
-  { label: "Features", href: "#" },
-  { label: "Shop", href: "#" },
-  { label: "Products", href: "#" },
-  { label: "Elements", href: "#", isHighlighted: true },
-  { label: "Buy Porto!", href: "#" },
+const mainNavigation: MainNavigationItem[] = [
+  { label: "Trang chủ", href: "/", isHighlighted: true },
+  { label: "Tính năng", href: "/features" },
+  { label: "Sản phẩm", href: "/products" },
+  { label: "Mặt hàng", href: "/items" },
+  { label: "Yếu tố", href: "/elements", isHighlighted: true },
+  { label: "Mua Porto!", href: "/buy" },
 ];
 
 const filterTabs = [
-  { id: "varietal", label: "Varietal" },
-  { id: "region", label: "Region" },
+  { id: "varietal", label: "Loại" },
+  { id: "region", label: "Vùng" },
 ] as const;
 
 const varietalColumns: ColumnGroup[] = [
   {
-    title: "Red Wine",
+    title: "Rượu Đỏ",
     items: ["Bordeaux Blends", "Cabernet Sauvignon", "Merlot", "Pinot Noir", "Sangiovese"],
   },
   {
-    title: "White Wine",
-    items: ["Chardonnay", "Pinot Gris/Grigio", "Riesling", "Sauvignon Blanc", "White Bordeaux Blends"],
+    title: "Rượu Trắng",
+    items: ["Chardonnay", "Pinot Gris/Grigio", "Riesling", "Sauvignon Blanc", "Hỗn hợp Bordeaux Trắng"],
   },
   {
-    title: "Other",
-    items: ["Champagne", "Desert & Fortified", "Rose Wine", "Sake", "Sparkling"],
+    title: "Khác",
+    items: ["Champagne", "Tráng miệng & Đặc sản", "Rượu Hồng", "Sake", "Rượu có ga"],
   },
   {
-    title: "Selection",
-    items: ["From $40 to $60", "From $60 to $100", "From $100 to $200", "From $200 to $500", "Top Sellers"],
+    title: "Lựa chọn",
+    items: ["Từ $40 đến $60", "Từ $60 đến $100", "Từ $100 đến $200", "Từ $200 đến $500", "Bán chạy nhất"],
   },
 ];
 
 const regionColumns: ColumnGroup[] = [
   {
-    title: "France",
-    items: ["Bordeaux", "Burgundy", "Champagne", "Rhone", "Loire Valley"],
+    title: "Pháp",
+    items: ["Bordeaux", "Burgundy", "Champagne", "Rhone", "Thung lũng Loire"],
   },
   {
-    title: "Italy",
+    title: "Ý",
     items: ["Piedmont", "Tuscany", "Veneto", "Sicily", "Friuli-Venezia-Giulia"],
   },
   {
-    title: "USA",
+    title: "Mỹ",
     items: ["California", "Central Coast", "Napa Valley", "Sonoma County", "Washington"],
   },
   {
-    title: "Country",
-    items: ["Australia", "Austria", "Germany", "Portugal", "Spain"],
+    title: "Quốc gia",
+    items: ["Úc", "Áo", "Đức", "Bồ Đào Nha", "Tây Ban Nha"],
   },
 ];
 
 const popularProducts: Product[] = [
   {
-    name: "Product Short Name",
+    name: "Rượu Vang Đặc biệt",
     image: "https://www.portotheme.com/wordpress/porto/shop39/wp-content/uploads/sites/107/2020/12/product-16.jpg",
     price: "$39.00",
     rating: 0,
-    categories: ["Bordeaux Blends", "Cabernet Sauvignon"],
+    categories: ["Hỗn hợp Bordeaux", "Cabernet Sauvignon"],
   },
   {
-    name: "Product Short Name",
+    name: "Rượu Vang Đặc biệt",
     image: "https://www.portotheme.com/wordpress/porto/shop39/wp-content/uploads/sites/107/2020/12/product-15.jpg",
     price: "$49.00",
     originalPrice: "$59.00",
     badge: "sale",
     rating: 5,
-    categories: ["Austria", "Sake"],
+    categories: ["Áo", "Sake"],
   },
   {
-    name: "Product Short Name",
+    name: "Rượu Vang Đặc biệt",
     image: "https://www.portotheme.com/wordpress/porto/shop39/wp-content/uploads/sites/107/2020/12/product-14.jpg",
     price: "$89.00",
     originalPrice: "$99.00",
@@ -131,7 +136,7 @@ const popularProducts: Product[] = [
     categories: ["Cabernet Sauvignon"],
   },
   {
-    name: "Product Short Name",
+    name: "Rượu Vang Đặc biệt",
     image: "https://www.portotheme.com/wordpress/porto/shop39/wp-content/uploads/sites/107/2020/12/product-13.jpg",
     price: "$59.00",
     rating: 0,
@@ -141,7 +146,7 @@ const popularProducts: Product[] = [
 
 const featuredProducts: Product[] = [
   {
-    name: "Product Short Name",
+    name: "Rượu Vang Đặc biệt",
     image: "https://www.portotheme.com/wordpress/porto/shop39/wp-content/uploads/sites/107/2020/12/product-8.jpg",
     price: "$209.00",
     badge: "hot",
@@ -149,7 +154,7 @@ const featuredProducts: Product[] = [
     categories: ["Cabernet Sauvignon"],
   },
   {
-    name: "Product Short Name",
+    name: "Rượu Vang Đặc biệt",
     image: "https://www.portotheme.com/wordpress/porto/shop39/wp-content/uploads/sites/107/2020/12/product-7.jpg",
     price: "$49.00",
     badge: "hot",
@@ -157,7 +162,7 @@ const featuredProducts: Product[] = [
     categories: ["Cabernet Sauvignon"],
   },
   {
-    name: "Product Short Name",
+    name: "Rượu Vang Đặc biệt",
     image: "https://www.portotheme.com/wordpress/porto/shop39/wp-content/uploads/sites/107/2020/12/product-6.jpg",
     price: "$59.00",
     badge: "hot",
@@ -165,39 +170,39 @@ const featuredProducts: Product[] = [
     categories: ["Cabernet Sauvignon"],
   },
   {
-    name: "Product Short Name",
+    name: "Rượu Vang Đặc biệt",
     image: "https://www.portotheme.com/wordpress/porto/shop39/wp-content/uploads/sites/107/2020/12/product-5.jpg",
     price: "$69.00",
     badge: "hot",
     rating: 0,
-    categories: ["Cabernet Sauvignon", "Sparkling"],
+    categories: ["Cabernet Sauvignon", "Có ga"],
   },
 ];
 
 const staffFavorites: Product[] = [
   {
-    name: "Product Short Name",
+    name: "Rượu Vang Đặc biệt",
     image: "https://www.portotheme.com/wordpress/porto/shop39/wp-content/uploads/sites/107/2020/12/product-12.jpg",
     price: "$29.00",
     rating: 0,
     categories: ["Cabernet Sauvignon"],
   },
   {
-    name: "Product Short Name",
+    name: "Rượu Vang Đặc biệt",
     image: "https://www.portotheme.com/wordpress/porto/shop39/wp-content/uploads/sites/107/2020/12/product-11.jpg",
     price: "$59.00",
     rating: 0,
     categories: ["Cabernet Sauvignon"],
   },
   {
-    name: "Product Short Name",
+    name: "Rượu Vang Đặc biệt",
     image: "https://www.portotheme.com/wordpress/porto/shop39/wp-content/uploads/sites/107/2020/12/product-10.jpg",
     price: "$79.00",
     rating: 0,
     categories: ["Cabernet Sauvignon"],
   },
   {
-    name: "Product Short Name",
+    name: "Rượu Vang Đặc biệt",
     image: "https://www.portotheme.com/wordpress/porto/shop39/wp-content/uploads/sites/107/2020/12/product-9.jpg",
     price: "$49.00",
     originalPrice: "$59.00",
@@ -205,22 +210,22 @@ const staffFavorites: Product[] = [
     categories: ["Cabernet Sauvignon"],
   },
   {
-    name: "Product Short Name",
+    name: "Rượu Vang Đặc biệt",
     image: "https://www.portotheme.com/wordpress/porto/shop39/wp-content/uploads/sites/107/2020/12/product-16.jpg",
     price: "$39.00",
     rating: 0,
-    categories: ["Bordeaux Blends"],
+    categories: ["Hỗn hợp Bordeaux"],
   },
   {
-    name: "Product Short Name",
+    name: "Rượu Vang Đặc biệt",
     image: "https://www.portotheme.com/wordpress/porto/shop39/wp-content/uploads/sites/107/2020/12/product-15.jpg",
     price: "$49.00",
     originalPrice: "$59.00",
     rating: 5,
-    categories: ["Austria", "Sake"],
+    categories: ["Áo", "Sake"],
   },
   {
-    name: "Product Short Name",
+    name: "Rượu Vang Đặc biệt",
     image: "https://www.portotheme.com/wordpress/porto/shop39/wp-content/uploads/sites/107/2020/12/product-14.jpg",
     price: "$89.00",
     originalPrice: "$99.00",
@@ -228,7 +233,7 @@ const staffFavorites: Product[] = [
     categories: ["Cabernet Sauvignon"],
   },
   {
-    name: "Product Short Name",
+    name: "Rượu Vang Đặc biệt",
     image: "https://www.portotheme.com/wordpress/porto/shop39/wp-content/uploads/sites/107/2020/12/product-13.jpg",
     price: "$59.00",
     rating: 0,
@@ -238,19 +243,19 @@ const staffFavorites: Product[] = [
 
 const blogPosts = [
   {
-    title: "Lorem ipsum dolor sit amet",
+    title: "Khám phá thế giới rượu vang hảo hạng",
     image: "https://www.portotheme.com/wordpress/porto/shop39/wp-content/uploads/sites/107/2020/12/POST-1.jpg",
-    date: "December 7, 2020",
+    date: "7 tháng 12, 2020",
   },
   {
-    title: "Lorem ipsum dolor sit amet",
+    title: "Khám phá thế giới rượu vang hảo hạng",
     image: "https://www.portotheme.com/wordpress/porto/shop39/wp-content/uploads/sites/107/2020/12/post-2.jpg",
-    date: "December 7, 2020",
+    date: "7 tháng 12, 2020",
   },
   {
-    title: "Lorem ipsum dolor sit amet",
+    title: "Khám phá thế giới rượu vang hảo hạng",
     image: "https://www.portotheme.com/wordpress/porto/shop39/wp-content/uploads/sites/107/2020/12/post-3.jpg",
-    date: "December 7, 2020",
+    date: "7 tháng 12, 2020",
   },
 ];
 
@@ -262,16 +267,16 @@ const instagramImages = [
 ];
 
 const footerLinks: Record<string, string[]> = {
-  "Customer Service": [
-    "Help & FAQs",
-    "Order Tracking",
-    "Shipping & Delivery",
-    "Orders History",
-    "Advanced Search",
-    "Login",
+  "Dịch vụ Khách hàng": [
+    "Trợ trợ & Câu hỏi thường gặp",
+    "Theo dõi đơn hàng",
+    "Vận chuyển & Giao hàng",
+    "Lịch sử đơn hàng",
+    "Tìm kiếm nâng cao",
+    "Đăng nhập",
   ],
-  "About Us": ["About Us", "Careers", "Our Stores", "Corporate Sales"],
-  "More Information": ["Affiliates", "Refer a Friend", "Student Beans Offers", "Gift Vouchers"],
+  "Về chúng tôi": ["Về chúng tôi", "Sự nghiệp", "Cửa hàng của chúng tôi", "Bán hàng doanh nghiệp"],
+  "Thông tin thêm": ["Đối tác", "Giới thiệu bạn bè", "Ưu đãi Student Beans", "Phiếu quà tặng"],
 };
 
 const badgeStyles: Record<NonNullable<Product["badge"]>, string> = {
@@ -283,8 +288,8 @@ const badgeStyles: Record<NonNullable<Product["badge"]>, string> = {
 const testimonial = {
   quote:
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur tempor tempus rhoncus. Sed et magna quis nisi iaculis consectetur. Nullam molestie sed dui at volutpat.",
-  author: "Mary Doe",
-  role: "Customer",
+  author: "Trần Thị Mai",
+  role: "Khách hàng",
   avatar: "https://www.portotheme.com/wordpress/porto/shop39/wp-content/uploads/sites/107/2020/12/avatar.png",
 };
 function RatingStars({ rating }: { rating: number }) {
@@ -360,10 +365,10 @@ function ProductCard({ product, variant = "solid" }: { product: Product; variant
             )}
           </div>
         </div>
-        <button className={buttonClass}>
-          <ShoppingCart className="h-4 w-4" />
-          Add to Cart
-        </button>
+        <a href="#" className={buttonClass}>
+          <Eye className="h-4 w-4" />
+          Xem chi tiết
+        </a>
       </div>
     </article>
   );
@@ -384,7 +389,7 @@ export default function Home() {
             <div className="flex items-center gap-2">
               <Phone className="h-3.5 w-3.5" />
               <span className="tracking-wide">
-                Call Us: <span className="font-semibold">800-123-4567</span>
+                Gọi chúng tôi: <span className="font-semibold">800-123-4567</span>
               </span>
             </div>
             <nav className="hidden items-center gap-5 uppercase tracking-[0.25em] md:flex">
@@ -430,7 +435,7 @@ export default function Home() {
                 {mainNavigation.map((item) => (
                   <Link
                     key={item.label}
-                    href={item.href}
+                    href={item.href as any}
                     className={item.isHighlighted ? "text-[#b6193a]" : "text-slate-700 hover:text-[#b6193a]"}
                   >
                     {item.label}
@@ -441,7 +446,7 @@ export default function Home() {
             <div className="flex items-center gap-4 text-slate-700">
               <button className="hidden items-center gap-2 rounded-full border border-slate-200 px-4 py-2 text-xs uppercase tracking-[0.2em] md:flex">
                 <Search className="h-4 w-4" />
-                Search
+                Tìm kiếm
               </button>
               <Link href="#" aria-label="My account">
                 <User className="h-6 w-6" />
@@ -449,13 +454,6 @@ export default function Home() {
               <Link href="#" aria-label="Wishlist" className="hidden md:block">
                 <Heart className="h-6 w-6" />
               </Link>
-              <div className="flex items-center gap-2 rounded-full border border-slate-200 px-3 py-2 text-xs uppercase tracking-[0.25em]">
-                <ShoppingCart className="h-5 w-5" />
-                <div className="hidden flex-col leading-none md:flex">
-                  <span className="text-[10px] text-slate-500">Shopping Cart</span>
-                  <span className="font-semibold text-slate-800">$0.00</span>
-                </div>
-              </div>
             </div>
           </div>
         </div>
@@ -478,12 +476,12 @@ export default function Home() {
                 <span className="h-[2px] w-10 bg-[#b6193a]" />
                 2016 Cabernet Sauvignon
               </span>
-              <h1 className="text-5xl font-black uppercase tracking-[0.03em] text-slate-900 md:text-6xl">Porto Wine</h1>
+              <h1 className="text-5xl font-black uppercase tracking-[0.03em] text-slate-900 md:text-6xl">Rượu Vang Porto</h1>
               <p className="max-w-md text-base leading-7 text-slate-600">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quam lacus, et suscipit lectus porta efficitur.
+                Khám phá bộ sưu tập rượu vang đặc biệt với hương vị tinh tế và chất lượng vượt trội.
               </p>
               <div className="flex items-baseline gap-2">
-                <span className="text-sm font-semibold uppercase tracking-[0.35em] text-slate-500">Only</span>
+                <span className="text-sm font-semibold uppercase tracking-[0.35em] text-slate-500">Chỉ với</span>
                 <span className="text-5xl font-black text-[#b6193a]">
                   <sup className="text-xl align-top">$</sup>39<sup className="text-sm align-top">99</sup>
                 </span>
@@ -492,7 +490,7 @@ export default function Home() {
                 href="#"
                 className="inline-flex items-center gap-2 rounded-full border border-slate-900 px-8 py-3 text-sm font-semibold uppercase tracking-[0.3em] text-slate-900 transition hover:bg-slate-900 hover:text-white"
               >
-                Shop Now
+                Mua ngay
                 <ChevronRight className="h-4 w-4" />
               </Link>
             </div>
@@ -508,11 +506,11 @@ export default function Home() {
               <img src={heroImages.rareWine} alt="Rare wines" className="absolute inset-0 h-full w-full object-cover opacity-30" />
               <div className="relative flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
                 <div>
-                  <p className="text-sm uppercase tracking-[0.35em] text-white/70">Rare Wines</p>
-                  <h2 className="mt-2 text-4xl font-bold uppercase tracking-tight">Incredible Discounts</h2>
+                  <p className="text-sm uppercase tracking-[0.35em] text-white/70">Rượu Hiếm</p>
+                  <h2 className="mt-2 text-4xl font-bold uppercase tracking-tight">Giảm Giá Đặc Biệt</h2>
                 </div>
                 <div className="flex items-baseline gap-2">
-                  <span className="text-xs font-semibold uppercase tracking-[0.35em] text-white/70">Only</span>
+                  <span className="text-xs font-semibold uppercase tracking-[0.35em] text-white/70">Chỉ với</span>
                   <span className="text-4xl font-black">
                     <sup className="text-xl align-top">$</sup>39<sup className="text-sm align-top">99</sup>
                   </span>
@@ -522,7 +520,7 @@ export default function Home() {
                 href="#"
                 className="relative mt-8 inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-xs font-semibold uppercase tracking-[0.3em] text-slate-900 transition hover:bg-white/90"
               >
-                Shop Now
+                Mua ngay
                 <ChevronRight className="h-4 w-4" />
               </Link>
             </div>
@@ -532,12 +530,12 @@ export default function Home() {
                 <h3 className="text-4xl font-black uppercase leading-tight tracking-[0.12em]">
                   Top <span className="text-[#b6193a]">10+</span>
                 </h3>
-                <p className="text-xs font-semibold uppercase tracking-[0.35em] text-slate-500">Under $100</p>
+                <p className="text-xs font-semibold uppercase tracking-[0.35em] text-slate-500">Dưới $100</p>
                 <Link
                   href="#"
                   className="mt-4 inline-flex items-center gap-2 rounded-full border border-slate-900 px-5 py-3 text-xs font-semibold uppercase tracking-[0.3em] transition hover:bg-slate-900 hover:text-white"
                 >
-                  Shop Now
+                  Mua ngay
                   <ChevronRight className="h-4 w-4" />
                 </Link>
               </div>
@@ -548,7 +546,7 @@ export default function Home() {
           <div className="mx-auto max-w-[1200px] px-4">
             <div className="rounded-[34px] border border-slate-200 bg-[#f6f6f6] shadow-[0_30px_70px_-60px_rgba(15,23,42,0.5)]">
               <div className="flex flex-col gap-5 border-b border-slate-200 px-8 py-6 md:flex-row md:items-center md:justify-between">
-                <h2 className="text-sm font-semibold uppercase tracking-[0.35em] text-slate-600">Filter by:</h2>
+                <h2 className="text-sm font-semibold uppercase tracking-[0.35em] text-slate-600">Lọc theo:</h2>
                 <div className="w-full overflow-hidden rounded-full border border-slate-200 bg-white text-center md:w-auto">
                   <div className="grid grid-cols-2 text-xs font-semibold uppercase tracking-[0.3em]">
                     {filterTabs.map((tab) => (
@@ -582,7 +580,7 @@ export default function Home() {
                       href="#"
                       className="inline-flex items-center gap-1 text-xs font-semibold uppercase tracking-[0.3em] text-slate-800 transition hover:text-[#b6193a]"
                     >
-                      View All
+                      Xem tất cả
                       <ChevronRight className="h-3 w-3" />
                     </Link>
                   </div>
@@ -595,12 +593,12 @@ export default function Home() {
         <section className="bg-white pb-4">
           <div className="mx-auto max-w-[1200px] px-4">
             <div className="flex items-center justify-between border-b border-slate-200 pb-6">
-              <h2 className="text-sm font-semibold uppercase tracking-[0.35em] text-slate-600">Popular Wines</h2>
+              <h2 className="text-sm font-semibold uppercase tracking-[0.35em] text-slate-600">Rượu Phổ Biến</h2>
               <Link
                 href="#"
                 className="hidden items-center gap-2 text-xs font-semibold uppercase tracking-[0.32em] text-slate-600 transition hover:text-[#b6193a] md:inline-flex"
               >
-                View All
+                Xem tất cả
                 <ChevronRight className="h-3 w-3" />
               </Link>
             </div>
@@ -617,22 +615,22 @@ export default function Home() {
             <div className="flex items-center gap-4 rounded-2xl border border-slate-200 bg-[#f9f5f3] px-6 py-5">
               <Truck className="h-10 w-10 text-[#b6193a]" />
               <div>
-                <p className="text-sm font-semibold uppercase tracking-[0.3em] text-slate-800">Free Shipping & Return</p>
-                <p className="text-sm text-slate-600">Free shipping on all orders over $99.</p>
+                <p className="text-sm font-semibold uppercase tracking-[0.3em] text-slate-800">Miễn phí Vận chuyển & Trả hàng</p>
+                <p className="text-sm text-slate-600">Miễn phí vận chuyển cho tất cả đơn hàng trên $99.</p>
               </div>
             </div>
             <div className="flex items-center gap-4 rounded-2xl border border-slate-200 bg-[#f9f5f3] px-6 py-5">
               <ShieldCheck className="h-10 w-10 text-[#b6193a]" />
               <div>
-                <p className="text-sm font-semibold uppercase tracking-[0.3em] text-slate-800">Money Back Guarantee</p>
-                <p className="text-sm text-slate-600">100% money back guarantee.</p>
+                <p className="text-sm font-semibold uppercase tracking-[0.3em] text-slate-800">Bảo lãnh Hoàn tiền</p>
+                <p className="text-sm text-slate-600">Bảo lãnh hoàn tiền 100%.</p>
               </div>
             </div>
             <div className="flex items-center gap-4 rounded-2xl border border-slate-200 bg-[#f9f5f3] px-6 py-5">
               <MessageCircle className="h-10 w-10 text-[#b6193a]" />
               <div>
-                <p className="text-sm font-semibold uppercase tracking-[0.3em] text-slate-800">Online Support 24/7</p>
-                <p className="text-sm text-slate-600">Lorem ipsum dolor sit amet.</p>
+                <p className="text-sm font-semibold uppercase tracking-[0.3em] text-slate-800">Hỗ trợ Trực tuyến 24/7</p>
+                <p className="text-sm text-slate-600">Luôn sẵn sàng hỗ trợ bạn mọi lúc.</p>
               </div>
             </div>
           </div>
@@ -641,7 +639,7 @@ export default function Home() {
         <section className="bg-white pb-4">
           <div className="mx-auto max-w-[1200px] px-4">
             <div className="flex items-center justify-between border-b border-slate-200 pb-6">
-              <h2 className="text-sm font-semibold uppercase tracking-[0.35em] text-slate-600">Featured Wines</h2>
+              <h2 className="text-sm font-semibold uppercase tracking-[0.35em] text-slate-600">Rượu Nổi Bật</h2>
             </div>
             <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
               {featuredProducts.map((product) => (
@@ -664,7 +662,7 @@ export default function Home() {
               <div className="mb-4 flex justify-center text-[#b6193a]">
                 <Quote className="h-10 w-10" />
               </div>
-              <p className="text-lg italic text-slate-700">“{testimonial.quote}”</p>
+              <p className="text-lg italic text-slate-700">"{testimonial.quote}"</p>
               <div className="mt-6 flex flex-col items-center gap-3">
                 <img
                   src={testimonial.avatar}
@@ -681,7 +679,7 @@ export default function Home() {
         <section className="bg-white pb-4 pt-16">
           <div className="mx-auto max-w-[1200px] px-4">
             <div className="flex items-center justify-between border-b border-slate-200 pb-6">
-              <h2 className="text-sm font-semibold uppercase tracking-[0.35em] text-slate-600">Staff Favorites</h2>
+              <h2 className="text-sm font-semibold uppercase tracking-[0.35em] text-slate-600">Ưu thích của Nhân viên</h2>
             </div>
             <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
               {staffFavorites.map((product) => (
@@ -708,8 +706,8 @@ export default function Home() {
         <section className="bg-[#b6193a] py-12 text-white">
           <div className="mx-auto flex max-w-[1200px] flex-col items-center justify-between gap-6 px-4 text-center md:flex-row md:text-left">
             <div>
-              <p className="text-sm font-semibold uppercase tracking-[0.35em] text-white/70">Wine Spectator's Top 100</p>
-              <h2 className="mt-3 text-3xl font-bold uppercase tracking-[0.2em]">Check Now This Year's List</h2>
+              <p className="text-sm font-semibold uppercase tracking-[0.35em] text-white/70">Top 100 Rượu Vang</p>
+              <h2 className="mt-3 text-3xl font-bold uppercase tracking-[0.2em]">Xem Ngay Danh Sách Năm Nay</h2>
             </div>
             <Link
               href="#"
@@ -723,7 +721,7 @@ export default function Home() {
         <section className="bg-white py-16">
           <div className="mx-auto max-w-[1200px] px-4">
             <div className="flex items-center justify-between border-b border-slate-200 pb-6">
-              <h2 className="text-sm font-semibold uppercase tracking-[0.35em] text-slate-600">From the Blog</h2>
+              <h2 className="text-sm font-semibold uppercase tracking-[0.35em] text-slate-600">Từ Blog</h2>
             </div>
             <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
               {blogPosts.map((post) => (
@@ -742,7 +740,7 @@ export default function Home() {
                       href="#"
                       className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.3em] text-slate-900 transition hover:text-[#b6193a]"
                     >
-                      Read More
+                      Đọc thêm
                       <ChevronRight className="h-3 w-3" />
                     </Link>
                   </div>
@@ -755,7 +753,7 @@ export default function Home() {
           <div className="mx-auto max-w-[1200px] px-4">
             <div className="flex items-center justify-between border-b border-slate-200 pb-6">
               <h2 className="text-sm font-semibold uppercase tracking-[0.35em] text-slate-600">
-                From Instagram - <span className="text-slate-900">@portowineshop</span>
+                Từ Instagram - <span className="text-slate-900">@portowineshop</span>
               </h2>
             </div>
             <div className="mt-8 grid gap-4 sm:grid-cols-2 md:grid-cols-4">
@@ -780,20 +778,20 @@ export default function Home() {
         <div className="bg-white py-10">
           <div className="mx-auto flex max-w-[1200px] flex-col gap-6 px-4 md:flex-row md:items-center md:justify-between">
             <div>
-              <h3 className="text-lg font-semibold uppercase tracking-[0.35em] text-slate-900">Newsletter</h3>
-              <p className="mt-2 text-sm text-slate-600">Get all the latest information on events, sales and offers.</p>
+              <h3 className="text-lg font-semibold uppercase tracking-[0.35em] text-slate-900">Bản tin</h3>
+              <p className="mt-2 text-sm text-slate-600">Nhận tất cả thông tin mới nhất về sự kiện, bán hàng và ưu đãi.</p>
             </div>
             <form className="flex w-full max-w-xl items-center overflow-hidden rounded-full border border-slate-200 bg-slate-50">
               <input
                 type="email"
-                placeholder="Email address..."
+                placeholder="Địa chỉ email..."
                 className="flex-1 bg-transparent px-5 py-4 text-sm text-slate-700 outline-none"
               />
               <button
                 type="submit"
                 className="flex items-center gap-2 bg-[#b6193a] px-6 py-4 text-xs font-semibold uppercase tracking-[0.3em] text-white transition hover:bg-[#9f1431]"
               >
-                Submit
+                Gửi
                 <Mail className="h-4 w-4" />
               </button>
             </form>
@@ -831,7 +829,7 @@ export default function Home() {
               </div>
               <div className="flex items-center gap-2 text-sm text-slate-600">
                 <BadgePercent className="h-4 w-4 text-[#b6193a]" />
-                Payment Methods
+                Phương thức Thanh toán
               </div>
               <div className="flex gap-2 text-xs font-semibold uppercase text-slate-600">
                 {['Visa', 'Paypal', 'Stripe', 'Verisign'].map((method) => (
