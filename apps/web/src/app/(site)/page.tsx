@@ -46,15 +46,6 @@ type ColumnGroup = {
   items: string[];
 };
 
-const heroImages = {
-  primary:
-    "https://www.portotheme.com/wordpress/porto/shop39/wp-content/uploads/sites/107/2021/09/shop39-intro-1.png",
-  rareWine:
-    "https://www.portotheme.com/wordpress/porto/shop39/wp-content/uploads/sites/107/2020/12/banner-1.jpg",
-  topUnder100:
-    "https://www.portotheme.com/wordpress/porto/shop39/wp-content/uploads/sites/107/2020/12/banner-2.jpg",
-};
-
 const headerLinks = ["Theo dõi đơn hàng", "Về chúng tôi", "Cửa hàng", "Blog", "Liên hệ", "Trợ trợ & Câu hỏi thường gặp"];
 
 const mainNavigation: MainNavigationItem[] = [
@@ -461,87 +452,44 @@ export default function Home() {
 
       <main>
         <section className="relative overflow-hidden bg-[#f4f4f4]">
-          <div className="absolute inset-0">
-            <div className="absolute left-1/2 top-8 h-[420px] w-[420px] -translate-x-1/2 rounded-full bg-[#b6193a]/10 blur-3xl" />
-            <div className="absolute -left-16 top-1/2 hidden -translate-y-1/2 text-[220px] font-black uppercase tracking-[0.06em] text-slate-200/60 md:block">
-              PORTO
-            </div>
-            <div className="absolute right-[-60px] bottom-[-40px] hidden text-[170px] font-black uppercase tracking-[0.08em] text-slate-200/45 md:block">
-              WINE
-            </div>
-          </div>
-          <div className="relative mx-auto grid max-w-[1200px] gap-12 px-4 py-16 md:grid-cols-[minmax(0,1fr)_420px] md:py-20">
-            <div className="relative z-10 space-y-6">
-              <span className="inline-flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.35em] text-slate-500">
-                <span className="h-[2px] w-10 bg-[#b6193a]" />
-                2016 Cabernet Sauvignon
-              </span>
-              <h1 className="text-5xl font-black uppercase tracking-[0.03em] text-slate-900 md:text-6xl">Rượu Vang Porto</h1>
-              <p className="max-w-md text-base leading-7 text-slate-600">
-                Khám phá bộ sưu tập rượu vang đặc biệt với hương vị tinh tế và chất lượng vượt trội.
+          <img
+            src="https://www.portotheme.com/wordpress/porto/shop39/wp-content/uploads/sites/107/2021/09/shop39-intro-1.jpg"
+            alt="Porto wine hero background"
+            className="absolute inset-0 h-full w-full object-cover"
+            loading="eager"
+          />
+          <div className="absolute inset-0 bg-[#f4f4f4]/80" />
+          <div className="relative mx-auto flex min-h-[550px] max-w-[1140px] justify-center px-4 py-16 sm:px-6 md:py-20 lg:px-10">
+            <div className="flex w-full flex-col items-start text-left md:max-w-[60%]">
+              <span className="text-sm font-semibold uppercase tracking-[0.275em] text-slate-900">2016 Cabernet Sauvignon</span>
+              <h1
+                className="mt-4 text-[52px] font-bold uppercase leading-[1.05] text-slate-900 md:text-[68px] lg:text-[85px]"
+                style={{ fontFamily: '"Spectral SC", serif' }}
+              >
+                Porto wine
+              </h1>
+              <p className="mt-6 text-base font-light leading-[2] text-slate-700 md:text-lg">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                <br className="hidden md:block" />
+                quam lacus, et suscipit lectus porta efficitur.
               </p>
-              <div className="flex items-baseline gap-2">
-                <span className="text-sm font-semibold uppercase tracking-[0.35em] text-slate-500">Chỉ với</span>
-                <span className="text-5xl font-black text-[#b6193a]">
-                  <sup className="text-xl align-top">$</sup>39<sup className="text-sm align-top">99</sup>
+              <div className="mt-8 flex items-end gap-3">
+                <span className="text-sm font-semibold uppercase tracking-[0.35em] text-slate-900">only</span>
+                <span className="text-[#9a2948] text-[48px] font-bold leading-none lg:text-[60px]">
+                  <sup className="text-[24px] leading-none align-top">$</sup>39
+                  <sup className="text-[20px] leading-none align-top">99</sup>
                 </span>
               </div>
               <Link
                 href="#"
-                className="inline-flex items-center gap-2 rounded-full border border-slate-900 px-8 py-3 text-sm font-semibold uppercase tracking-[0.3em] text-slate-900 transition hover:bg-slate-900 hover:text-white"
+                className="mt-10 inline-flex items-center border border-[#e6e6e6] bg-white px-12 py-4 text-xs font-semibold uppercase tracking-[0.3em] text-slate-900 transition duration-200 hover:border-[#9a2948] hover:bg-[#9a2948] hover:text-white"
               >
-                Mua ngay
-                <ChevronRight className="h-4 w-4" />
+                SHOP NOW
               </Link>
-            </div>
-            <div className="relative z-10 flex items-center justify-center">
-              <div className="relative w-full max-w-[420px] rounded-[36px] bg-white/85 p-8 shadow-[0_40px_80px_-45px_rgba(15,23,42,0.45)] backdrop-blur">
-                <img src={heroImages.primary} alt="Porto wine collection" className="w-full object-contain" />
-              </div>
-            </div>
-          </div>
-
-          <div className="relative mx-auto grid max-w-[1200px] gap-6 px-4 pb-16 md:grid-cols-3 md:gap-8">
-            <div className="relative overflow-hidden rounded-[32px] bg-[#24181d] px-10 py-12 text-white md:col-span-2">
-              <img src={heroImages.rareWine} alt="Rare wines" className="absolute inset-0 h-full w-full object-cover opacity-30" />
-              <div className="relative flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-                <div>
-                  <p className="text-sm uppercase tracking-[0.35em] text-white/70">Rượu Hiếm</p>
-                  <h2 className="mt-2 text-4xl font-bold uppercase tracking-tight">Giảm Giá Đặc Biệt</h2>
-                </div>
-                <div className="flex items-baseline gap-2">
-                  <span className="text-xs font-semibold uppercase tracking-[0.35em] text-white/70">Chỉ với</span>
-                  <span className="text-4xl font-black">
-                    <sup className="text-xl align-top">$</sup>39<sup className="text-sm align-top">99</sup>
-                  </span>
-                </div>
-              </div>
-              <Link
-                href="#"
-                className="relative mt-8 inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-xs font-semibold uppercase tracking-[0.3em] text-slate-900 transition hover:bg-white/90"
-              >
-                Mua ngay
-                <ChevronRight className="h-4 w-4" />
-              </Link>
-            </div>
-            <div className="relative overflow-hidden rounded-[32px] bg-[#f5f1f2] px-8 py-12 text-slate-900">
-              <img src={heroImages.topUnder100} alt="Top under 100" className="absolute inset-0 h-full w-full object-cover opacity-15" />
-              <div className="relative space-y-3">
-                <h3 className="text-4xl font-black uppercase leading-tight tracking-[0.12em]">
-                  Top <span className="text-[#b6193a]">10+</span>
-                </h3>
-                <p className="text-xs font-semibold uppercase tracking-[0.35em] text-slate-500">Dưới $100</p>
-                <Link
-                  href="#"
-                  className="mt-4 inline-flex items-center gap-2 rounded-full border border-slate-900 px-5 py-3 text-xs font-semibold uppercase tracking-[0.3em] transition hover:bg-slate-900 hover:text-white"
-                >
-                  Mua ngay
-                  <ChevronRight className="h-4 w-4" />
-                </Link>
-              </div>
             </div>
           </div>
         </section>
+
         <section className="bg-white py-16">
           <div className="mx-auto max-w-[1200px] px-4">
             <div className="rounded-[34px] border border-slate-200 bg-[#f6f6f6] shadow-[0_30px_70px_-60px_rgba(15,23,42,0.5)]">
@@ -861,3 +809,4 @@ export default function Home() {
     </div>
   );
 }
+
