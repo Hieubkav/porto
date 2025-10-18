@@ -94,10 +94,12 @@ const shareItems = [
   { label: "Email", icon: Mail, href: "#", color: "hover:bg-[#0b1f33]" },
 ];
 
+type RouteParams = {
+  slug?: string | string[];
+};
+
 type PageProps = {
-  params: {
-    slug: string;
-  };
+  params?: Promise<RouteParams>;
 };
 
 const tabs = [
@@ -107,7 +109,21 @@ const tabs = [
 ] as const;
 
 export default function ProductDetailPage({ params }: PageProps) {
-  const product = useMemo(() => productMap[params.slug as keyof typeof productMap], [params.slug]);
+  const routeParams = useMemo(() => {
+    const rawParams = params as unknown as RouteParams;
+    const rawSlug = rawParams?.slug;
+
+    if (Array.isArray(rawSlug)) {
+      return { slug: rawSlug[0] ?? "" };
+    }
+
+    return { slug: rawSlug ?? "" };
+  }, [params]);
+
+  const product = useMemo(
+    () => productMap[routeParams.slug as keyof typeof productMap],
+    [routeParams.slug],
+  );
 
   const [activeTab, setActiveTab] = useState<(typeof tabs)[number]["id"]>("description");
   const [country, setCountry] = useState("");
