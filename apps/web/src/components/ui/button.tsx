@@ -47,11 +47,19 @@ function Button({
 	}) {
 	const Comp = asChild ? SlotPrimitive.Slot : "button";
 
+	const filteredProps = React.useMemo(() => {
+		if (asChild) {
+			const { popover, ...rest } = props as any;
+			return rest;
+		}
+		return props;
+	}, [asChild, props]);
+
 	return (
 		<Comp
 			data-slot="button"
 			className={cn(buttonVariants({ variant, size, className }))}
-			{...props}
+			{...filteredProps}
 		/>
 	);
 }
